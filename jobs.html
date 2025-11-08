@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Career Hub - Jobs</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+/* Gradient header background */
+.header-gradient {
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  color: white;
+  border-radius: 0 0 40px 40px;
+  padding: 80px 20px 40px;
+  text-align: center;
+}
+
+.header-gradient h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.header-gradient p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Search Bar Section */
+.search-bar {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 25px;
+  margin-top: -40px;
+}
+
+.search-bar input, .search-bar select {
+  border-radius: 30px;
+  padding: 10px 20px;
+}
+
+.search-bar button {
+  border-radius: 30px;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.search-bar button:hover {
+  background: linear-gradient(90deg, #0056b3, #0094cc);
+}
+
+/* Job Cards */
+.job-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: 15px;
+}
+
+.job-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.job-card img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.btn-apply {
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  border: none;
+  color: white;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.btn-apply:hover {
+  background: linear-gradient(90deg, #0056b3, #0094cc);
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: 60px;
+  border-radius: 40px 40px 0 0;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand text-primary fw-bold" href="index.html">AI Career Hub</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="jobs.html">Jobs</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume-analyzer.html">Analyzer</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume-builder.html">Builder</a></li>
+        <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
+        <li class="nav-item"><a class="nav-link" href="internships.html">Internships</a></li>
+        <li class="nav-item"><a class="nav-link" href="career-predictor.html">Predictor</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Header -->
+<section class="header-gradient">
+  <h2>🚀 Explore Top AI, IT & Non-IT Jobs</h2>
+  <p>Find your perfect role in Tech, AI, Business, Marketing, or Design.</p>
+</section>
+
+<!-- Search & Filters -->
+<section class="container search-bar">
+  <form id="filterForm" class="row g-3 justify-content-center align-items-center">
+    <div class="col-md-3">
+      <input type="text" id="roleSearch" class="form-control" placeholder="🔍 Search job roles (e.g. Developer, HR)">
+    </div>
+
+    <div class="col-md-3">
+      <select id="cityFilter" class="form-select">
+        <option value="">📍 Select Location</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Pune">Pune</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Remote">Remote</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select id="categoryFilter" class="form-select">
+        <option value="">💼 Job Type</option>
+        <option value="IT">IT</option>
+        <option value="Non-IT">Non-IT</option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <select id="salaryFilter" class="form-select">
+        <option value="">💰 Salary Range</option>
+        <option value="50000">Below ₹50,000/month</option>
+        <option value="100000">₹50,000 - ₹1,00,000/month</option>
+        <option value="200000">Above ₹1,00,000/month</option>
+      </select>
+    </div>
+
+    <div class="col-md-1">
+      <button type="button" class="btn w-100" onclick="filterJobs()">Go</button>
+    </div>
+  </form>
+</section>
+
+<!-- Jobs Section -->
+<section class="container py-5">
+  <div class="row g-4" id="jobContainer">
+
+    <!-- IT / AI ROLES -->
+    <div class="col-md-4 job" data-city="Bangalore" data-salary="120000" data-role="AI Engineer" data-category="IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712105.png" alt="">
+        <h5 class="mt-3 fw-bold">AI Engineer - Google</h5>
+        <p>Bangalore | ₹1,20,000/month</p>
+        <p>Develop and optimize AI systems and deep learning solutions.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Hyderabad" data-salary="100000" data-role="Data Scientist" data-category="IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/1087/1087927.png" alt="">
+        <h5 class="mt-3 fw-bold">Data Scientist - Microsoft</h5>
+        <p>Hyderabad | ₹1,00,000/month</p>
+        <p>Analyze large datasets to generate actionable business insights.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Chennai" data-salary="80000" data-role="Cybersecurity Analyst" data-category="IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt="">
+        <h5 class="mt-3 fw-bold">Cybersecurity Analyst - TCS</h5>
+        <p>Chennai | ₹80,000/month</p>
+        <p>Protect enterprise data and digital infrastructure from threats.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Pune" data-salary="90000" data-role="Cloud Engineer" data-category="IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/4149/4149670.png" alt="">
+        <h5 class="mt-3 fw-bold">Cloud Engineer - Amazon</h5>
+        <p>Pune | ₹90,000/month</p>
+        <p>Manage scalable AWS cloud deployments and infrastructure.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Remote" data-salary="150000" data-role="AI Product Manager" data-category="IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/8711/8711229.png" alt="">
+        <h5 class="mt-3 fw-bold">AI Product Manager - OpenAI</h5>
+        <p>Remote | ₹1,50,000/month</p>
+        <p>Lead cross-functional teams to build AI-powered products.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Bangalore" data-salary="70000" data-role="Software Developer" data-category="IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/3208/3208676.png" alt="">
+        <h5 class="mt-3 fw-bold">Software Developer - Infosys</h5>
+        <p>Bangalore | ₹70,000/month</p>
+        <p>Develop web applications using Python, React, and modern stacks.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <!-- NON IT ROLES -->
+    <div class="col-md-4 job" data-city="Mumbai" data-salary="60000" data-role="Marketing Executive" data-category="Non-IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="">
+        <h5 class="mt-3 fw-bold">Marketing Executive - Reliance</h5>
+        <p>Mumbai | ₹60,000/month</p>
+        <p>Develop and execute marketing strategies to boost brand presence.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Delhi" data-salary="50000" data-role="HR Manager" data-category="Non-IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/2920/2920266.png" alt="">
+        <h5 class="mt-3 fw-bold">HR Manager - Wipro</h5>
+        <p>Delhi | ₹50,000/month</p>
+        <p>Handle employee relations, recruitment, and HR operations.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Hyderabad" data-salary="55000" data-role="Accountant" data-category="Non-IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/4370/4370931.png" alt="">
+        <h5 class="mt-3 fw-bold">Accountant - Deloitte</h5>
+        <p>Hyderabad | ₹55,000/month</p>
+        <p>Prepare and analyze financial records, reports, and statements.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Chennai" data-salary="45000" data-role="Graphic Designer" data-category="Non-IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="">
+        <h5 class="mt-3 fw-bold">Graphic Designer - Adobe</h5>
+        <p>Chennai | ₹45,000/month</p>
+        <p>Create visual designs and branding materials using Photoshop & AI tools.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 job" data-city="Pune" data-salary="40000" data-role="Sales Executive" data-category="Non-IT">
+      <div class="card job-card p-4 text-center shadow-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/744/744502.png" alt="">
+        <h5 class="mt-3 fw-bold">Sales Executive - Flipkart</h5>
+        <p>Pune | ₹40,000/month</p>
+        <p>Identify business opportunities and close high-value sales deals.</p>
+        <button class="btn btn-apply w-100">Apply Now</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 AI Career Hub | Job Insights Powered by AI</p>
+</footer>
+
+<script>
+// Filter Function
+function filterJobs() {
+  const role = document.getElementById('roleSearch').value.toLowerCase();
+  const city = document.getElementById('cityFilter').value;
+  const salary = document.getElementById('salaryFilter').value;
+  const category = document.getElementById('categoryFilter').value;
+  const jobs = document.querySelectorAll('.job');
+
+  jobs.forEach(job => {
+    const jobRole = job.getAttribute('data-role').toLowerCase();
+    const jobCity = job.getAttribute('data-city');
+    const jobSalary = parseInt(job.getAttribute('data-salary'));
+    const jobCategory = job.getAttribute('data-category');
+
+    let match = true;
+
+    if (role && !jobRole.includes(role)) match = false;
+    if (city && jobCity !== city) match = false;
+    if (category && jobCategory !== category) match = false;
+
+    if (salary) {
+      if (salary === "50000" && jobSalary > 50000) match = false;
+      if (salary === "100000" && (jobSalary < 50000 || jobSalary > 100000)) match = false;
+      if (salary === "200000" && jobSalary < 100000) match = false;
+    }
+
+    job.style.display = match ? "block" : "none";
+  });
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

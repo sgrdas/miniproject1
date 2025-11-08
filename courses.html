@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Courses | AI Career Hub</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{ --brand1:#007bff; --brand2:#00c6ff; }
+  body{font-family:'Poppins',sans-serif;background:#f9fbff;color:#333;}
+  /* Navbar */
+  .navbar{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+  .navbar-brand{font-weight:700;color:var(--brand1)!important}
+  .nav-link.active{color:var(--brand1)!important;font-weight:600}
+  /* Header */
+  .header-section{background:linear-gradient(135deg,var(--brand1),var(--brand2));color:#fff;text-align:center;padding:80px 20px;border-radius:0 0 40px 40px}
+  .header-section h2{font-size:2.2rem;font-weight:700}
+  .header-section p{opacity:.9}
+  /* Filters */
+  .filter-bar{background:#fff;border-radius:20px;box-shadow:0 4px 10px rgba(0,0,0,.05);padding:20px;margin-top:-40px}
+  .filter-bar .form-control,.filter-bar .form-select{border-radius:30px;padding:10px 18px}
+  .btn-gradient{background:linear-gradient(90deg,var(--brand1),var(--brand2));border:none;color:#fff;border-radius:30px;font-weight:500}
+  .btn-gradient:hover{background:linear-gradient(90deg,#0056b3,#0094cc)}
+  .btn-ghost{border-radius:30px}
+  /* Cards */
+  .card{border:none;border-radius:20px;box-shadow:0 6px 15px rgba(0,0,0,.05);transition:transform .25s,box-shadow .25s;position:relative}
+  .card:hover{transform:translateY(-8px);box-shadow:0 12px 25px rgba(0,0,0,.12)}
+  .card img{border-radius:15px;height:180px;width:100%;object-fit:cover;margin-bottom:12px}
+  .price{font-weight:600;color:var(--brand1)}
+  .badge{position:absolute;top:14px;left:14px;border-radius:12px;padding:6px 10px;font-size:.78rem}
+  .badge-trend{background:linear-gradient(90deg,#ff6a00,#ffbb00);color:#fff}
+  .badge-free{background:linear-gradient(90deg,#00c851,#007e33);color:#fff}
+  .tag{position:absolute;top:14px;right:52px;background:#fff;border:1px solid #eee;border-radius:12px;padding:4px 10px;font-size:.75rem}
+  /* Wishlist heart */
+  .wish-btn{
+    position:absolute; top:12px; right:12px; width:38px; height:38px; border-radius:50%;
+    background:#ffffffd9; display:flex; align-items:center; justify-content:center;
+    border:none; box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer;
+  }
+  .wish-btn svg{width:20px;height:20px;fill:none;stroke:#ff3b3b;stroke-width:2}
+  .wish-btn.active svg{fill:#ff3b3b;stroke:#ff3b3b}
+  /* Compare checkbox */
+  .compare-toggle{
+    position:absolute; bottom:12px; right:12px; background:#ffffffcc; border:1px solid #eee;
+    border-radius:20px; padding:4px 10px; font-size:.8rem; display:flex; gap:6px; align-items:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.06)
+  }
+  /* Compare bar */
+  .compare-bar{
+    position:fixed; bottom:16px; left:50%; transform:translateX(-50%);
+    background:#fff; border:1px solid #eee; border-radius:999px; box-shadow:0 8px 30px rgba(0,0,0,.12);
+    padding:10px 14px; display:flex; gap:10px; align-items:center; z-index:1055;
+  }
+  .compare-chip{background:#f3f7ff; border:1px solid #e3ecff; color:#246; border-radius:999px; padding:6px 12px; font-size:.85rem}
+  .compare-bar .btn{border-radius:999px}
+  /* Offcanvas Wishlist */
+  .wish-item{border:1px solid #eef2ff; border-radius:14px; padding:10px; display:flex; justify-content:space-between; align-items:center;}
+  .wish-item a{font-weight:600; text-decoration:none}
+  .wish-empty{opacity:.7}
+  /* Footer */
+  footer{background:linear-gradient(135deg,var(--brand1),var(--brand2));color:#fff;text-align:center;padding:20px 0;border-radius:40px 40px 0 0;margin-top:60px}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">AI Career Hub</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="menu" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="jobs.html" class="nav-link">Jobs</a></li>
+        <li class="nav-item"><a href="resume-analyzer.html" class="nav-link">Analyzer</a></li>
+        <li class="nav-item"><a href="resume-builder.html" class="nav-link">Builder</a></li>
+        <li class="nav-item"><a href="#" class="nav-link active">Courses</a></li>
+        <li class="nav-item"><a href="internships.html" class="nav-link">Internships</a></li>
+        <li class="nav-item"><a href="career-predictor.html" class="nav-link">Predictor</a></li>
+        <li class="nav-item ms-lg-3">
+          <button class="btn btn-sm btn-gradient" data-bs-toggle="offcanvas" data-bs-target="#wishlistCanvas">❤️ Wishlist</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Header -->
+<section class="header-section">
+  <h2>🎓 Explore All Courses — Programming, AI, IT, Non-IT & More</h2>
+  <p>Curated learning paths for jobs, interviews, and real-world skills. Save to wishlist or compare courses!</p>
+</section>
+
+<!-- Filters -->
+<section class="container filter-bar">
+  <div class="row g-3 align-items-center">
+    <div class="col-lg-4">
+      <input id="searchInput" type="text" class="form-control" placeholder="🔍 Search course name (e.g., Python, React, Aptitude)">
+    </div>
+    <div class="col-lg-3">
+      <select id="categoryFilter" class="form-select">
+        <option value="">📚 All Categories</option>
+        <option value="Programming">Programming</option>
+        <option value="AI & Data">AI & Data</option>
+        <option value="IT & Cloud">IT & Cloud</option>
+        <option value="Non-IT">Non-IT</option>
+        <option value="Aptitude">Aptitude</option>
+        <option value="Interview">Interview</option>
+      </select>
+    </div>
+    <div class="col-lg-2">
+      <select id="priceFilter" class="form-select">
+        <option value="">💰 All Prices</option>
+        <option value="Free">Free</option>
+        <option value="Paid">Paid</option>
+      </select>
+    </div>
+    <div class="col-lg-3 d-flex gap-2">
+      <select id="sortFilter" class="form-select">
+        <option value="trending">Sort: Trending</option>
+        <option value="free">Sort: Free First</option>
+        <option value="paid">Sort: Paid First</option>
+        <option value="az">Sort: A → Z</option>
+      </select>
+      <button id="resetBtn" class="btn btn-ghost btn-outline-secondary">Reset</button>
+    </div>
+  </div>
+</section>
+
+<!-- Courses Grid -->
+<section class="container py-5">
+  <div id="courseContainer" class="row g-4">
+
+    <!-- ===== PROGRAMMING ===== -->
+    <div class="col-md-4 course" data-id="c-py" data-category="Programming" data-price="Free" data-trending="1" data-title="Python for Beginners" data-link="https://www.w3schools.com/python/">
+      <div class="card p-3 h-100 text-center">
+        <span class="badge badge-trend">🔥 Trending</span>
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" alt="Python">
+        <h5>Python for Beginners</h5>
+        <p>Hands-on Python basics with mini projects and quizzes.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.w3schools.com/python/">Start Learning</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="c-c" data-category="Programming" data-price="Free" data-trending="0" data-title="Learn C Programming" data-link="https://www.programiz.com/c-programming">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/6132/6132222.png" alt="C">
+        <h5>Learn C Programming</h5>
+        <p>Core programming logic, pointers, arrays, and structures.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.programiz.com/c-programming">Start Course</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="c-cpp" data-category="Programming" data-price="Free" data-trending="0" data-title="Mastering C++" data-link="https://www.learncpp.com/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/6132/6132222.png" alt="C++">
+        <h5>Mastering C++</h5>
+        <p>OOP, STL, and problem solving with C++ best practices.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.learncpp.com/">Learn C++</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="c-java" data-category="Programming" data-price="Free" data-trending="1" data-title="Java Full Course" data-link="https://www.javatpoint.com/java-tutorial">
+      <div class="card p-3 h-100 text-center">
+        <span class="tag">⭐ Popular</span>
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/226/226777.png" alt="Java">
+        <h5>Java Full Course</h5>
+        <p>Core + Advanced Java with OOP, collections and JDBC.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.javatpoint.com/java-tutorial">Start Learning</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="c-js" data-category="Programming" data-price="Free" data-trending="1" data-title="JavaScript Complete Guide" data-link="https://www.w3schools.com/js/">
+      <div class="card p-3 h-100 text-center">
+        <span class="badge badge-trend">🔥 Trending</span>
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="JavaScript">
+        <h5>JavaScript Complete Guide</h5>
+        <p>Modern JS: DOM, async, ES6+, Node basics and more.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.w3schools.com/js/">Learn JS</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="c-htmlcss" data-category="Programming" data-price="Free" data-trending="0" data-title="HTML & CSS Crash Course" data-link="https://www.freecodecamp.org/learn/responsive-web-design/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968672.png" alt="HTML CSS">
+        <h5>HTML & CSS Crash Course</h5>
+        <p>Build responsive sites with HTML5 & modern CSS3.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.freecodecamp.org/learn/responsive-web-design/">Start Course</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="c-react" data-category="Programming" data-price="Paid" data-trending="1" data-title="ReactJS Frontend Development" data-link="https://www.udemy.com/course/react-the-complete-guide-incl-redux/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn.iconscout.com/icon/free/png-512/react-4-1175110.png" alt="ReactJS">
+        <h5>ReactJS Frontend Development</h5>
+        <p>React, Hooks, routing, state management & patterns.</p>
+        <p class="price">₹3,499 (Paid)</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.udemy.com/course/react-the-complete-guide-incl-redux/">Buy Now</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="c-sql" data-category="Programming" data-price="Free" data-trending="0" data-title="SQL for Data Analysis" data-link="https://www.kaggle.com/learn/intro-to-sql">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/2772/2772128.png" alt="SQL">
+        <h5>SQL for Data Analysis</h5>
+        <p>Joins, aggregations, window functions and real datasets.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.kaggle.com/learn/intro-to-sql">Start Learning</a>
+      </div>
+    </div>
+
+    <!-- ===== AI & DATA ===== -->
+    <div class="col-md-4 course" data-id="a-afe" data-category="AI & Data" data-price="Free" data-trending="1" data-title="AI for Everyone" data-link="https://www.coursera.org/learn/ai-for-everyone">
+      <div class="card p-3 h-100 text-center">
+        <span class="badge badge-trend">🔥 Trending</span>
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://th.bing.com/th/id/OIP.YOkYmrZzercXIe-q1y7gswHaEK?w=288&h=180" alt="AI for Everyone">
+        <h5>AI for Everyone</h5>
+        <p>Non-technical intro to AI and ML across industries.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.coursera.org/learn/ai-for-everyone">Enroll Free</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="a-gml" data-category="AI & Data" data-price="Free" data-trending="1" data-title="Google ML Crash Course" data-link="https://developers.google.com/machine-learning/crash-course">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn.worldvectorlogo.com/logos/google-cloud-2.svg" alt="Google ML">
+        <h5>Google ML Crash Course</h5>
+        <p>Hands-on ML with TensorFlow, exercises and videos.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://developers.google.com/machine-learning/crash-course">Start Now</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="a-dlaz" data-category="AI & Data" data-price="Paid" data-trending="0" data-title="Deep Learning A–Z" data-link="https://www.udemy.com/course/deeplearning/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712105.png" alt="Deep Learning">
+        <h5>Deep Learning A–Z™: Hands-On</h5>
+        <p>Bestselling neural networks course with projects.</p>
+        <p class="price">₹3,499 (Paid)</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.udemy.com/course/deeplearning/">Buy Now</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="a-ibmai" data-category="AI & Data" data-price="Paid" data-trending="0" data-title="IBM AI Engineering" data-link="https://www.coursera.org/professional-certificates/ai-engineer">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM AI">
+        <h5>IBM AI Engineering Professional</h5>
+        <p>ML, DL & NN specialization from IBM experts.</p>
+        <p class="price">₹45,000 (Paid)</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.coursera.org/professional-certificates/ai-engineer">Enroll</a>
+      </div>
+    </div>
+
+    <!-- ===== IT & CLOUD ===== -->
+    <div class="col-md-4 course" data-id="it-aws" data-category="IT & Cloud" data-price="Free" data-trending="1" data-title="AWS Cloud Practitioner" data-link="https://aws.amazon.com/training/">
+      <div class="card p-3 h-100 text-center">
+        <span class="badge badge-free">🆓 Free</span>
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn.worldvectorlogo.com/logos/aws-2.svg" alt="AWS">
+        <h5>AWS Cloud Practitioner Essentials</h5>
+        <p>Cloud basics, AWS core services and billing.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://aws.amazon.com/training/">Start Learning</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="it-msai" data-category="IT & Cloud" data-price="Free" data-trending="0" data-title="Microsoft AI Fundamentals" data-link="https://learn.microsoft.com/en-us/training/paths/get-started-with-artificial-intelligence/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+        <h5>Microsoft AI Fundamentals</h5>
+        <p>Build your AI foundation with Microsoft Learn.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://learn.microsoft.com/en-us/training/paths/get-started-with-artificial-intelligence/">View Course</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="it-cyber" data-category="IT & Cloud" data-price="Paid" data-trending="0" data-title="Cybersecurity Analyst Path" data-link="https://www.coursera.org/specializations/ibm-cybersecurity-analyst">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt="Cybersecurity">
+        <h5>Cybersecurity Analyst Path</h5>
+        <p>Threats, SIEM, incident response & security ops.</p>
+        <p class="price">₹3,999 (Paid)</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.coursera.org/specializations/ibm-cybersecurity-analyst">View Path</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="it-devops" data-category="IT & Cloud" data-price="Paid" data-trending="0" data-title="DevOps with Docker & Kubernetes" data-link="https://www.udemy.com/course/docker-kubernetes-the-practical-guide/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/919/919853.png" alt="DevOps">
+        <h5>DevOps with Docker & Kubernetes</h5>
+        <p>CI/CD pipelines, containerization & orchestration.</p>
+        <p class="price">₹3,499 (Paid)</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.udemy.com/course/docker-kubernetes-the-practical-guide/">Buy Now</a>
+      </div>
+    </div>
+
+    <!-- ===== NON-IT ===== -->
+    <div class="col-md-4 course" data-id="n-marketing" data-category="Non-IT" data-price="Paid" data-trending="1" data-title="Digital Marketing Masterclass" data-link="https://www.udemy.com/course/learn-digital-marketing-course/">
+      <div class="card p-3 h-100 text-center">
+        <span class="tag">⭐ Popular</span>
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://th.bing.com/th/id/OIP.4V0EvKa3p7G_hjq4HAsadwHaEK?rs=1&pid=ImgDetMain" alt="Marketing">
+        <h5>Digital Marketing Masterclass</h5>
+        <p>SEO, ads, analytics & social growth strategies.</p>
+        <p class="price">₹3,499 (Paid)</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.udemy.com/course/learn-digital-marketing-course/">Buy Now</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="n-fin" data-category="Non-IT" data-price="Free" data-trending="0" data-title="Finance for Non-Finance" data-link="https://www.coursera.org/learn/finance-for-non-finance-professionals">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/4370/4370931.png" alt="Finance">
+        <h5>Finance for Non-Finance Professionals</h5>
+        <p>Accounting essentials and business finance literacy.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.coursera.org/learn/finance-for-non-finance-professionals">Start Free</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="n-hr" data-category="Non-IT" data-price="Paid" data-trending="0" data-title="Human Resource Management" data-link="https://www.coursera.org/learn/human-resources">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/2920/2920266.png" alt="HR">
+        <h5>Human Resource Management</h5>
+        <p>Recruitment, payroll, HR analytics and compliance.</p>
+        <p class="price">₹2,999 (Paid)</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.coursera.org/learn/human-resources">View Course</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="n-design" data-category="Non-IT" data-price="Paid" data-trending="0" data-title="Graphic Design Essentials" data-link="https://www.udemy.com/course/graphic-design-masterclass-everything-you-need-to-know/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="Design">
+        <h5>Graphic Design Essentials</h5>
+        <p>Branding, color, typography with real projects.</p>
+        <p class="price">₹2,499 (Paid)</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.udemy.com/course/graphic-design-masterclass-everything-you-need-to-know/">Buy Now</a>
+      </div>
+    </div>
+
+    <!-- ===== APTITUDE ===== -->
+    <div class="col-md-4 course" data-id="ap-quant" data-category="Aptitude" data-price="Free" data-trending="1" data-title="Quantitative Aptitude Mastery" data-link="https://www.indiabix.com/aptitude/">
+      <div class="card p-3 h-100 text-center">
+        <span class="badge badge-free">🆓 Free</span>
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/1048/1048953.png" alt="Aptitude">
+        <h5>Quantitative Aptitude Mastery</h5>
+        <p>Shortcuts for campus placements & competitive exams.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.indiabix.com/aptitude/">Practice Now</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="ap-reason" data-category="Aptitude" data-price="Free" data-trending="0" data-title="Logical Reasoning & Puzzles" data-link="https://www.indiabix.com/logical-reasoning/questions-and-answers/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/1534/1534959.png" alt="Reasoning">
+        <h5>Logical Reasoning & Puzzles</h5>
+        <p>Sequences, arrangements, syllogisms, coding-decoding.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.indiabix.com/logical-reasoning/questions-and-answers/">Start Practice</a>
+      </div>
+    </div>
+
+    <!-- ===== INTERVIEW ===== -->
+    <div class="col-md-4 course" data-id="iv-skill" data-category="Interview" data-price="Free" data-trending="1" data-title="Interview Skills Masterclass" data-link="https://www.coursera.org/learn/interview-skills">
+      <div class="card p-3 h-100 text-center">
+        <span class="tag">💼 Career Boost</span>
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/2103/2103451.png" alt="Interview">
+        <h5>Interview Skills Masterclass</h5>
+        <p>Communication, storytelling, body language & STAR method.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.coursera.org/learn/interview-skills">Start Course</a>
+      </div>
+    </div>
+
+    <div class="col-md-4 course" data-id="iv-mock" data-category="Interview" data-price="Free" data-trending="0" data-title="Mock Interviews & Resume Practice" data-link="https://www.interviewbit.com/mock-interview/">
+      <div class="card p-3 h-100 text-center">
+        <button class="wish-btn" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.33-8.2a5.5 5.5 0 1 1 9.08-6.24A5.5 5.5 0 1 1 21.33 12.8C19 16.65 12 21 12 21z"/></svg>
+        </button>
+        <span class="compare-toggle"><input type="checkbox" class="compare-checkbox" /> Compare</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/1370/1370907.png" alt="Mock">
+        <h5>Mock Interviews & Resume Practice</h5>
+        <p>Interactive mocks with feedback for top roles.</p>
+        <p class="price">Free</p>
+        <a class="btn btn-gradient w-100" target="_blank" href="https://www.interviewbit.com/mock-interview/">Try Now</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Compare Bar (floating) -->
+<div id="compareBar" class="compare-bar d-none">
+  <span id="compareChips" class="d-flex gap-2"></span>
+  <button id="compareBtn" class="btn btn-sm btn-gradient">Compare</button>
+  <button id="clearCompare" class="btn btn-sm btn-outline-secondary">Clear</button>
+</div>
+
+<!-- Wishlist Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistCanvas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">❤️ My Wishlist</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="wishlistList" class="vstack gap-3"></div>
+    <div id="wishlistEmpty" class="wish-empty text-center">
+      <p>No courses saved yet. Tap the ❤️ on any card.</p>
+    </div>
+    <div class="d-grid mt-3">
+      <button id="clearWishlist" class="btn btn-outline-danger">Clear Wishlist</button>
+    </div>
+  </div>
+</div>
+
+<!-- Compare Modal -->
+<div class="modal fade" id="compareModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">⚖️ Compare Courses</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Feature</th>
+                <th>Course 1</th>
+                <th>Course 2</th>
+                <th>Course 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th>Title</th><td id="cmpTitle1"></td><td id="cmpTitle2"></td><td id="cmpTitle3"></td></tr>
+              <tr><th>Category</th><td id="cmpCat1"></td><td id="cmpCat2"></td><td id="cmpCat3"></td></tr>
+              <tr><th>Price</th><td id="cmpPrice1"></td><td id="cmpPrice2"></td><td id="cmpPrice3"></td></tr>
+              <tr><th>Link</th><td id="cmpLink1"></td><td id="cmpLink2"></td><td id="cmpLink3"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-muted small mb-0">Tip: You can select up to 3 courses to compare.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 AI Career Hub | Learn Smarter with AI</p>
+</footer>
+
+<script>
+  // ---------- Filtering + Sorting ----------
+  const searchInput = document.getElementById('searchInput');
+  const categorySel = document.getElementById('categoryFilter');
+  const priceSel = document.getElementById('priceFilter');
+  const sortSel = document.getElementById('sortFilter');
+  const resetBtn = document.getElementById('resetBtn');
+  const container = document.getElementById('courseContainer');
+
+  function getCards() { return Array.from(container.querySelectorAll('.course')); }
+
+  function applyFilters() {
+    const q = (searchInput.value || '').toLowerCase();
+    const cat = categorySel.value;
+    const price = priceSel.value;
+
+    getCards().forEach(card => {
+      const title = (card.getAttribute('data-title') || '').toLowerCase();
+      const cCat = card.getAttribute('data-category');
+      const cPrice = card.getAttribute('data-price');
+      let show = true;
+      if (q && !title.includes(q)) show = false;
+      if (cat && cCat !== cat) show = false;
+      if (price && cPrice !== price) show = false;
+      card.style.display = show ? '' : 'none';
+    });
+  }
+
+  function applySort() {
+    const mode = sortSel.value;
+    const cards = getCards().filter(c => c.style.display !== 'none');
+    cards.sort((a, b) => {
+      const at = (a.getAttribute('data-title') || '').toLowerCase();
+      const bt = (b.getAttribute('data-title') || '').toLowerCase();
+      const atr = Number(a.getAttribute('data-trending') || 0);
+      const btr = Number(b.getAttribute('data-trending') || 0);
+      const ap = a.getAttribute('data-price');
+      const bp = b.getAttribute('data-price');
+
+      if (mode === 'trending') return btr - atr || at.localeCompare(bt);
+      if (mode === 'free') return (ap === 'Free' ? 0 : 1) - (bp === 'Free' ? 0 : 1);
+      if (mode === 'paid') return (ap === 'Paid' ? 0 : 1) - (bp === 'Paid' ? 0 : 1);
+      return at.localeCompare(bt);
+    });
+    cards.forEach(c => container.appendChild(c));
+  }
+
+  function update() { applyFilters(); applySort(); }
+
+  [searchInput, categorySel, priceSel, sortSel].forEach(el => {
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    categorySel.value = '';
+    priceSel.value = '';
+    sortSel.value = 'trending';
+    update();
+  });
+
+  // ---------- Wishlist ----------
+  const WKEY = 'wishlistCourses';
+  function getWishlist() { try { return JSON.parse(localStorage.getItem(WKEY)) || []; } catch { return []; } }
+  function setWishlist(list) { localStorage.setItem(WKEY, JSON.stringify(list)); }
+  function inWishlist(id) { return getWishlist().some(x => x.id === id); }
+
+  function toggleWishlist(card) {
+    const id = card.getAttribute('data-id');
+    const title = card.getAttribute('data-title');
+    const category = card.getAttribute('data-category');
+    const price = card.getAttribute('data-price');
+    const link = card.getAttribute('data-link');
+    let list = getWishlist();
+    if (inWishlist(id)) list = list.filter(x => x.id !== id);
+    else list.push({ id, title, category, price, link });
+    setWishlist(list);
+    refreshWishlistUI();
+    reflectHeart(card);
+  }
+
+  function reflectHeart(card) {
+    const btn = card.querySelector('.wish-btn');
+    const id = card.getAttribute('data-id');
+    if (btn) btn.classList.toggle('active', inWishlist(id));
+  }
+
+  function refreshAllHearts() { getCards().forEach(reflectHeart); }
+
+  // Wishlist Offcanvas
+  const wishListWrap = document.getElementById('wishlistList');
+  const wishEmpty = document.getElementById('wishlistEmpty');
+  document.getElementById('clearWishlist').addEventListener('click', () => {
+    setWishlist([]); refreshWishlistUI(); refreshAllHearts();
+  });
+
+  function removeFromWishlist(id) {
+    const list = getWishlist().filter(x => x.id !== id);
+    setWishlist(list);
+    refreshWishlistUI();
+    const card = document.querySelector(`.course[data-id="${id}"]`);
+    if (card) reflectHeart(card);
+  }
+
+  function refreshWishlistUI() {
+    const list = getWishlist();
+    wishListWrap.innerHTML = '';
+    if (list.length === 0) { wishEmpty.style.display = ''; return; }
+    wishEmpty.style.display = 'none';
+    list.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'wish-item';
+      row.innerHTML = `
+        <div><div class="fw-semibold">${item.title}</div>
+        <div class="small text-muted">${item.category} • ${item.price}</div></div>
+        <div class="d-flex gap-2">
+          <a class="btn btn-sm btn-outline-primary" target="_blank" href="${item.link}">Open</a>
+          <button class="btn btn-sm btn-outline-danger" data-remove="${item.id}">Remove</button>
+        </div>`;
+      wishListWrap.appendChild(row);
+    });
+    wishListWrap.querySelectorAll('[data-remove]').forEach(btn =>
+      btn.addEventListener('click', () => removeFromWishlist(btn.getAttribute('data-remove')))
+    );
+  }
+
+  // ---------- Compare ----------
+  const compareBar = document.getElementById('compareBar');
+  const compareChips = document.getElementById('compareChips');
+  const compareBtn = document.getElementById('compareBtn');
+  const clearCompareBtn = document.getElementById('clearCompare');
+  let compareSet = new Set();
+
+  function refreshCompareBar() {
+    compareChips.innerHTML = '';
+    compareSet.forEach(id => {
+      const card = document.querySelector(`.course[data-id="${id}"]`);
+      if (!card) return;
+      const chip = document.createElement('span');
+      chip.className = 'compare-chip';
+      chip.textContent = card.getAttribute('data-title');
+      compareChips.appendChild(chip);
+    });
+    compareBar.classList.toggle('d-none', compareSet.size === 0);
+  }
+
+  function toggleCompare(card, checked) {
+    const id = card.getAttribute('data-id');
+    if (checked) {
+      if (compareSet.size >= 3) {
+        card.querySelector('.compare-checkbox').checked = false;
+        alert('You can compare up to 3 courses.');
+        return;
+      }
+      compareSet.add(id);
+    } else compareSet.delete(id);
+    refreshCompareBar();
+  }
+
+  function clearCompare() {
+    compareSet.clear();
+    document.querySelectorAll('.compare-checkbox').forEach(cb => cb.checked = false);
+    refreshCompareBar();
+  }
+
+  function fillCompareModal() {
+    const slots = Array.from(compareSet).slice(0, 3);
+    for (let i = 1; i <= 3; i++) {
+      const t = document.getElementById('cmpTitle' + i);
+      const c = document.getElementById('cmpCat' + i);
+      const p = document.getElementById('cmpPrice' + i);
+      const l = document.getElementById('cmpLink' + i);
+      if (slots[i - 1]) {
+        const card = document.querySelector(`.course[data-id="${slots[i - 1]}"]`);
+        t.textContent = card.getAttribute('data-title');
+        c.textContent = card.getAttribute('data-category');
+        p.textContent = card.getAttribute('data-price');
+        l.innerHTML = `<a href="${card.getAttribute('data-link')}" target="_blank">Open</a>`;
+      } else t.textContent = c.textContent = p.textContent = l.textContent = '';
+    }
+    recommendBest(slots);
+  }
+
+  // 🤖 AI Logic to find the best course for freshers
+  function recommendBest(ids) {
+    let best = null, score = -1, reason = "";
+    ids.forEach(id => {
+      const card = document.querySelector(`.course[data-id="${id}"]`);
+      if (!card) return;
+      const title = card.getAttribute('data-title').toLowerCase();
+      const cat = card.getAttribute('data-category');
+      const price = card.getAttribute('data-price');
+      let s = 0;
+      if (price === "Free") s += 2;
+      if (cat.includes("Programming")) s += 2;
+      if (title.includes("python")) s += 3, reason = "Best for freshers – easy syntax and job demand.";
+      else if (title.includes("html") || title.includes("css")) s += 2, reason = "Good starting point for web dev beginners.";
+      else if (title.includes("sql")) s += 2, reason = "Perfect for data jobs and simple syntax.";
+      else if (title.includes("ai for everyone")) s += 2, reason = "Beginner-friendly AI course.";
+      else reason = "Entry-level suitable course.";
+      if (s > score) { score = s; best = id; }
+    });
+
+    // highlight the best course cell
+    document.querySelectorAll('#compareModal td').forEach(td => td.classList.remove('table-success'));
+    if (best) {
+      const idx = Array.from(compareSet).indexOf(best) + 1;
+      const bestTitle = document.querySelector(`.course[data-id="${best}"]`).getAttribute('data-title');
+      const cell = document.getElementById('cmpTitle' + idx);
+      if (cell) cell.classList.add('table-success');
+      const table = document.querySelector('#compareModal table');
+      let msg = document.createElement('div');
+      msg.className = "alert alert-success mt-3";
+      msg.innerHTML = `<b>✅ Recommended for Freshers:</b> ${bestTitle}<br><small>${reason}</small>`;
+      table.insertAdjacentElement('afterend', msg);
+    }
+  }
+
+  compareBtn.addEventListener('click', () => {
+    if (compareSet.size === 0) { alert('Select at least one course to compare.'); return; }
+    document.querySelectorAll('#compareModal .alert').forEach(a => a.remove());
+    fillCompareModal();
+    new bootstrap.Modal(document.getElementById('compareModal')).show();
+  });
+  clearCompareBtn.addEventListener('click', clearCompare);
+
+  // ---------- Setup ----------
+  function wireCards() {
+    getCards().forEach(card => {
+      const heart = card.querySelector('.wish-btn');
+      if (heart && !heart.dataset.bound) {
+        heart.dataset.bound = '1';
+        heart.addEventListener('click', () => toggleWishlist(card));
+      }
+      const cb = card.querySelector('.compare-checkbox');
+      if (cb && !cb.dataset.bound) {
+        cb.dataset.bound = '1';
+        cb.addEventListener('change', () => toggleCompare(card, cb.checked));
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    update();
+    wireCards();
+    refreshAllHearts();
+    refreshWishlistUI();
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

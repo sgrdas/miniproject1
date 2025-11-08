@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Career Predictor | AI Career Hub</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Gradient Header */
+    .header-gradient {
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+      border-radius: 0 0 40px 40px;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .header-gradient h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .header-gradient p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    /* Card Design */
+    .career-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .career-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Suggestion Box */
+    .suggestion-box {
+      background: #f8f9fa;
+      border-left: 5px solid #0d6efd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    /* Confidence Bar */
+    .progress {
+      height: 20px;
+      border-radius: 20px;
+      background-color: #e9ecef;
+    }
+
+    .progress-bar {
+      background: linear-gradient(90deg, #007bff, #00c6ff);
+      font-weight: 600;
+    }
+
+    .ai-icon {
+      width: 60px;
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      margin-top: 80px;
+      border-radius: 40px 40px 0 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand text-primary fw-bold" href="index.html">AI Career Hub</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="jobs.html">Jobs</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume-analyzer.html">Analyzer</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume-builder.html">Builder</a></li>
+        <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
+        <li class="nav-item"><a class="nav-link" href="internships.html">Internships</a></li>
+        <li class="nav-item"><a class="nav-link active text-primary fw-bold" href="#">Predictor</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Gradient Header -->
+<section class="header-gradient">
+  <h2>🔮 AI Career Predictor</h2>
+  <p>Enter your skills and let AI recommend the best career roles, learning paths, and success tips.</p>
+</section>
+
+<!-- Predictor Section -->
+<section class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="career-card fade-in">
+        <label class="form-label fw-semibold">Enter Your Top Skills</label>
+        <input type="text" id="skillsInput" class="form-control mb-3" placeholder="e.g. Python, Machine Learning, SQL, Cloud, Cybersecurity">
+        <button class="btn btn-primary w-100" onclick="predictCareer()">Predict Career</button>
+
+        <div id="predictionBox" class="mt-4 text-center d-none fade-in">
+          <div class="spinner-border text-primary mb-3" role="status" id="loadingSpinner"></div>
+
+          <div id="resultContent" class="d-none">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" class="ai-icon mb-3" alt="AI Icon">
+            <h4 id="careerTitle" class="fw-bold text-success"></h4>
+            <p id="careerConfidence" class="text-muted"></p>
+
+            <div class="progress mt-3 mb-3">
+              <div id="confidenceBar" class="progress-bar" style="width:0%">0%</div>
+            </div>
+
+            <div id="suggestions" class="suggestion-box text-start">
+              <h6 class="fw-bold text-primary">🎓 Suggested Courses</h6>
+              <ul id="courseList"></ul>
+
+              <h6 class="fw-bold text-primary mt-3">💡 Career Tips</h6>
+              <ul id="tipsList"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 AI Career Hub | Smart Career Intelligence for the Future</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function predictCareer() {
+  const skills = document.getElementById('skillsInput').value.trim().toLowerCase();
+  const box = document.getElementById('predictionBox');
+  const spinner = document.getElementById('loadingSpinner');
+  const result = document.getElementById('resultContent');
+  const title = document.getElementById('careerTitle');
+  const conf = document.getElementById('careerConfidence');
+  const bar = document.getElementById('confidenceBar');
+  const courseList = document.getElementById('courseList');
+  const tipsList = document.getElementById('tipsList');
+
+  if (skills === '') {
+    alert('Please enter your skills first!');
+    return;
+  }
+
+  box.classList.remove('d-none');
+  result.classList.add('d-none');
+  spinner.style.display = 'inline-block';
+  bar.style.width = '0%';
+  bar.textContent = '0%';
+
+  setTimeout(() => {
+    spinner.style.display = 'none';
+    result.classList.remove('d-none');
+
+    let prediction = "Software Engineer";
+    let courses = [];
+    let tips = [];
+
+    if (skills.includes("ai") || skills.includes("machine")) {
+      prediction = "Machine Learning Engineer";
+      courses = ["Deep Learning Specialization – Coursera", "AI for Everyone – Andrew Ng", "TensorFlow Developer Course"];
+      tips = ["Focus on Python and ML algorithms", "Build projects using TensorFlow or PyTorch", "Work on Kaggle competitions"];
+    } 
+    else if (skills.includes("data")) {
+      prediction = "Data Scientist";
+      courses = ["Data Science Masterclass – UpGrad", "Python for Data Science – Coursera", "Statistics for Data Analysis"];
+      tips = ["Enhance SQL and visualization skills", "Learn to communicate data insights", "Build data-driven projects"];
+    } 
+    else if (skills.includes("web")) {
+      prediction = "Full Stack Developer";
+      courses = ["MERN Stack Bootcamp – Udemy", "Frontend Development with React – Coursera"];
+      tips = ["Master HTML, CSS, JS frameworks", "Learn backend with Node.js", "Host your own portfolio website"];
+    } 
+    else if (skills.includes("cyber")) {
+      prediction = "Cybersecurity Analyst";
+      courses = ["Certified Ethical Hacker (CEH)", "Cybersecurity Foundations – IBM SkillsBuild"];
+      tips = ["Learn about penetration testing", "Understand firewalls and encryption", "Get CEH or Security+ certified"];
+    } 
+    else if (skills.includes("cloud")) {
+      prediction = "Cloud Engineer";
+      courses = ["AWS Cloud Practitioner – Amazon", "Google Cloud Engineer Learning Path"];
+      tips = ["Focus on AWS or Azure certifications", "Learn CI/CD & Docker", "Understand infrastructure automation"];
+    } 
+    else {
+      courses = ["Career Growth Strategies – Coursera", "LinkedIn Learning: Future Skills"];
+      tips = ["Keep learning emerging tools", "Stay active on professional networks"];
+    }
+
+    const confidence = Math.floor(Math.random() * 21) + 80;
+    title.textContent = `Recommended Career: ${prediction}`;
+    conf.textContent = `AI Confidence: ${confidence}%`;
+
+    courseList.innerHTML = courses.map(c => `<li>${c}</li>`).join("");
+    tipsList.innerHTML = tips.map(t => `<li>${t}</li>`).join("");
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      if (progress >= confidence) clearInterval(interval);
+      else {
+        progress++;
+        bar.style.width = progress + '%';
+        bar.textContent = progress + '%';
+      }
+    }, 25);
+  }, 1500);
+}
+</script>
+
+</body>
+</html>

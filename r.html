@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Career Predictor | AI Career Hub</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      color: #0d6efd !important;
+      letter-spacing: 1px;
+    }
+    .nav-link {
+      color: #555 !important;
+      font-weight: 500;
+      margin-left: 15px;
+    }
+    .nav-link:hover {
+      color: #0d6efd !important;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #0d6efd, #00b4db);
+      color: white;
+      text-align: center;
+      padding: 90px 20px;
+      border-radius: 0 0 50px 50px;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    /* Card Design */
+    .career-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      transition: all 0.3s ease;
+    }
+    .career-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .suggestion-box {
+      background: #f0f4ff;
+      border-left: 5px solid #0d6efd;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .ai-icon {
+      width: 60px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Fade-in Animation */
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer */
+    footer {
+      background: #0d6efd;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      border-radius: 20px 20px 0 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">AI Career Hub</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="jobs.html">Jobs</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume-analyzer.html">Analyzer</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume-builder.html">Builder</a></li>
+        <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
+        <li class="nav-item"><a class="nav-link" href="internships.html">Internships</a></li>
+        <li class="nav-item"><a class="nav-link active text-primary" href="career-predictor.html">Predictor</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>🔮 AI Career Predictor</h1>
+  <p>Discover your perfect career path based on your skills and get personalized learning suggestions.</p>
+</section>
+
+<!-- Predictor Card -->
+<section class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="career-card fade-in">
+        <label class="form-label fw-semibold">Enter Your Skills</label>
+        <input type="text" id="skillsInput" class="form-control mb-3" placeholder="e.g. Python, Machine Learning, SQL, Cloud, Cybersecurity">
+        <button class="btn btn-primary w-100" onclick="predictCareer()">Predict Career</button>
+
+        <div id="predictionBox" class="mt-4 text-center d-none fade-in">
+          <div class="spinner-border text-primary mb-3" role="status" id="loadingSpinner"></div>
+
+          <div id="resultContent" class="d-none">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" class="ai-icon mb-3">
+            <h4 id="careerTitle" class="fw-bold text-success"></h4>
+            <p id="careerConfidence" class="text-muted"></p>
+            <div class="progress mt-3 mb-3" style="height: 20px;">
+              <div id="confidenceBar" class="progress-bar bg-success" style="width:0%">0%</div>
+            </div>
+
+            <div id="suggestions" class="suggestion-box text-start">
+              <h6 class="fw-bold text-primary">🎓 Suggested Courses</h6>
+              <ul id="courseList"></ul>
+
+              <h6 class="fw-bold text-primary mt-3">💡 Career Tips</h6>
+              <ul id="tipsList"></ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 AI Career Hub | Powered by Smart Career Intelligence</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function predictCareer() {
+  const skills = document.getElementById('skillsInput').value.trim().toLowerCase();
+  const box = document.getElementById('predictionBox');
+  const spinner = document.getElementById('loadingSpinner');
+  const result = document.getElementById('resultContent');
+  const title = document.getElementById('careerTitle');
+  const conf = document.getElementById('careerConfidence');
+  const bar = document.getElementById('confidenceBar');
+  const courseList = document.getElementById('courseList');
+  const tipsList = document.getElementById('tipsList');
+
+  if (skills === '') {
+    alert('Please enter your skills first!');
+    return;
+  }
+
+  box.classList.remove('d-none');
+  result.classList.add('d-none');
+  spinner.style.display = 'inline-block';
+  bar.style.width = '0%';
+  bar.textContent = '0%';
+
+  setTimeout(() => {
+    spinner.style.display = 'none';
+    result.classList.remove('d-none');
+
+    let prediction = "Software Engineer";
+    let courses = [];
+    let tips = [];
+
+    if (skills.includes("ai") || skills.includes("machine")) {
+      prediction = "Machine Learning Engineer";
+      courses = ["Deep Learning Specialization – Coursera", "AI for Everyone – Andrew Ng", "TensorFlow Developer – Google"];
+      tips = ["Focus on Python & ML algorithms", "Build ML projects", "Join AI hackathons"];
+    } 
+    else if (skills.includes("data")) {
+      prediction = "Data Scientist";
+      courses = ["Data Science Masterclass – UpGrad", "Python for Data Science – Coursera", "Statistics for Data Analysis"];
+      tips = ["Learn visualization tools", "Understand data storytelling", "Work with real-world datasets"];
+    } 
+    else if (skills.includes("web")) {
+      prediction = "Full Stack Developer";
+      courses = ["MERN Stack Bootcamp – Udemy", "Frontend with React – Coursera"];
+      tips = ["Master HTML, CSS, JS", "Learn backend with Node.js", "Build portfolio websites"];
+    } 
+    else if (skills.includes("cyber")) {
+      prediction = "Cybersecurity Analyst";
+      courses = ["Certified Ethical Hacker (CEH)", "Cybersecurity Foundations – IBM"];
+      tips = ["Learn penetration testing", "Understand firewalls & encryption", "Get Security+ certified"];
+    } 
+    else if (skills.includes("cloud")) {
+      prediction = "Cloud Engineer";
+      courses = ["AWS Cloud Practitioner – Amazon", "Google Cloud Engineer – Coursera"];
+      tips = ["Focus on AWS/Azure certifications", "Learn CI/CD & Docker", "Understand automation"];
+    } 
+    else {
+      courses = ["Career Growth Strategies – Coursera", "LinkedIn Learning: Future Skills"];
+      tips = ["Explore multiple domains", "Keep learning new tools", "Update your LinkedIn profile"];
+    }
+
+    const confidence = Math.floor(Math.random() * 21) + 80;
+    title.textContent = `Recommended Career: ${prediction}`;
+    conf.textContent = `AI Confidence: ${confidence}%`;
+
+    courseList.innerHTML = courses.map(c => `<li>${c}</li>`).join("");
+    tipsList.innerHTML = tips.map(t => `<li>${t}</li>`).join("");
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      if (progress >= confidence) {
+        clearInterval(interval);
+      } else {
+        progress++;
+        bar.style.width = progress + '%';
+        bar.textContent = progress + '%';
+      }
+    }, 25);
+  }, 1500);
+}
+</script>
+
+</body>
+</html>
